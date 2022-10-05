@@ -14,10 +14,12 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
 
   const tokenBearer = req.headers.authorization.split(' ');
   if (tokenBearer.length != 2) {
-    return res.status(401).send({message: 'Malformed token.'});
-  }
 
+    return res.status(401).send({message: 'Malformed token. '});
+  }
   const token = tokenBearer[1];
+  console.log(`Token: ${token}`);
+  
   return jwt.verify(token, c.config.jwt.secret, (err, decoded) => {
     if (err) {
       return res.status(500).send({auth: false, message: 'Failed to authenticate.'});
